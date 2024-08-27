@@ -1,21 +1,21 @@
 import 'package:dio/dio.dart';
 
 class AuthInterceptor extends Interceptor {
-  final Future<String> Function() token;
-  final String? headerParameter;
+  final Future<String> Function() getToken;
+  final String? authHeaderParameter;
   final bool bearerPrefixToken;
 
   AuthInterceptor(
-    this.token, {
-    this.headerParameter,
+    this.getToken, {
+    this.authHeaderParameter,
     this.bearerPrefixToken = true,
   });
 
   @override
   Future<dynamic> onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
-    options.headers[headerParameter ?? 'Authorization'] =
-        '${bearerPrefixToken ? 'Bearer ' : ''}${await token()}';
+    options.headers[authHeaderParameter ?? 'Authorization'] =
+        '${bearerPrefixToken ? 'Bearer ' : ''}${await getToken()}';
     return handler.next(options);
   }
 
