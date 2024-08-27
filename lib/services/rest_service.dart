@@ -4,6 +4,7 @@ import 'package:rest_service/rest_service.dart';
 abstract class RestService {
   late final Dio _dio;
   final String Function(dynamic)? getErrorMessage;
+  late final String _baseUrl;
 
   //PermaQuery
 
@@ -17,6 +18,11 @@ abstract class RestService {
       receiveTimeout: Duration(milliseconds: timeoutMilliseconds),
       baseUrl: baseUrl,
     ));
+    _baseUrl = baseUrl.length < 3
+        ? baseUrl
+        : baseUrl.endsWith('/')
+            ? baseUrl.substring(0, baseUrl.length - 2)
+            : baseUrl;
   }
 
   void addInterceptor(Interceptor interceptor) =>
@@ -25,6 +31,7 @@ abstract class RestService {
   void removeInterceptor(Interceptor interceptor) =>
       _dio.interceptors.remove(interceptor);
 
+  ///Get a list model from webService
   Future<RestResponse<List<T>>> getList<T>(
     String path,
     T Function(Map<String, dynamic>? json) parse, {
@@ -33,7 +40,7 @@ abstract class RestService {
   }) async {
     try {
       final result = await _dio.get(
-        path,
+        _composeUrl(path),
         queryParameters: query,
         options: Options(headers: headers),
       );
@@ -49,6 +56,7 @@ abstract class RestService {
     }
   }
 
+  ///Get a model from webService
   Future<RestResponse<T>> getModel<T>(
     String path,
     T Function(Map<String, dynamic>? json) parse, {
@@ -56,7 +64,7 @@ abstract class RestService {
     Map<String, dynamic>? headers,
   }) async {
     try {
-      final result = await _dio.get(path, queryParameters: query);
+      final result = await _dio.get(_composeUrl(path), queryParameters: query);
       return RestResponse<T>()
         ..data = parse(result.data)
         ..restStatusCode = RestStatusCode.fromInt(result.statusCode);
@@ -69,6 +77,7 @@ abstract class RestService {
     }
   }
 
+  ///Post a data and receive a list model
   Future<RestResponse<List<T>>> postList<T>(
     String path,
     body,
@@ -78,7 +87,7 @@ abstract class RestService {
   }) async {
     try {
       final result = await _dio.post(
-        path,
+        _composeUrl(path),
         data: body,
         queryParameters: query,
         options: Options(headers: headers),
@@ -95,10 +104,11 @@ abstract class RestService {
     }
   }
 
+  ///Post a data and receive a model
   Future<RestResponse<T>> postModel<T>(
       String path, body, T Function(Map<String, dynamic>? json) parse) async {
     try {
-      final result = await _dio.post(path, data: body);
+      final result = await _dio.post(_composeUrl(path), data: body);
       return RestResponse<T>()
         ..data = parse(result.data)
         ..restStatusCode = RestStatusCode.fromInt(result.statusCode);
@@ -111,10 +121,11 @@ abstract class RestService {
     }
   }
 
+  ///Put a data and receive a model
   Future<RestResponse<T>> putModel<T>(
       String path, body, T Function(dynamic json) parse) async {
     try {
-      final result = await _dio.put(path, data: body);
+      final result = await _dio.put(_composeUrl(path), data: body);
       return RestResponse<T>()
         ..data = parse(result.data)
         ..restStatusCode = RestStatusCode.fromInt(result.statusCode);
@@ -148,6 +159,9 @@ abstract class RestService {
     //     return RestFailure(message: 'Unknown');
     // }
   }
+
+  String _composeUrl(String path) =>
+      '$_baseUrl/${path.startsWith('/') ? path.substring(1) : path}';
 
   List<T> _parseList<T>(
           dynamic itens, T Function(Map<String, dynamic>? item) parse) =>
