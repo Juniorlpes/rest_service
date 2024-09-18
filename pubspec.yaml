@@ -1,6 +1,6 @@
 name: rest_service
 description: A new Flutter package project.
-version: 0.0.2
+version: 0.0.3 #dart pub publish
 homepage: https://github.com/Juniorlpes/rest_service
 
 environment:

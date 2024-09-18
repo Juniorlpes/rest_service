@@ -16,7 +16,7 @@ abstract class RestService {
     _dio = Dio(BaseOptions(
       connectTimeout: Duration(milliseconds: timeoutMilliseconds),
       receiveTimeout: Duration(milliseconds: timeoutMilliseconds),
-      baseUrl: baseUrl,
+      //baseUrl: baseUrl,
     ));
     _baseUrl = baseUrl.length < 3
         ? baseUrl
@@ -25,11 +25,11 @@ abstract class RestService {
             : baseUrl;
   }
 
-  void addInterceptor(Interceptor interceptor) =>
-      _dio.interceptors.add(interceptor);
+  void addInterceptor(Interceptor dioInterceptor) =>
+      _dio.interceptors.add(dioInterceptor);
 
-  void removeInterceptor(Interceptor interceptor) =>
-      _dio.interceptors.remove(interceptor);
+  void removeInterceptor(Interceptor dioInterceptor) =>
+      _dio.interceptors.remove(dioInterceptor);
 
   ///Get a list model from webService
   Future<RestResponse<List<T>>> getList<T>(
