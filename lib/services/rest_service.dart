@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:rest_service/rest_service.dart';
+import 'package:simple_rest_service/rest_service.dart';
 
 abstract class RestService {
   late final Dio _dio;

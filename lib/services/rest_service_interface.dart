@@ -1,4 +1,4 @@
-import 'package:rest_service/entities/rest_response.dart';
+import 'package:simple_rest_service/entities/rest_response.dart';
 
 abstract class IRestService {
   ///Get a model from webService

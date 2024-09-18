@@ -1,3 +1,7 @@
+## 0.0.4
+
+* change package name
+
 ## 0.0.3
 
 * Internal improvements

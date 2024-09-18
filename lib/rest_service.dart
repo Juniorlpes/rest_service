@@ -1,4 +1,4 @@
-library rest_service;
+library simple_rest_service;
 
 export 'entities/rest_status_code.dart';
 export './entities/rest_failure.dart';
