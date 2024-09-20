@@ -1,6 +1,6 @@
 name: simple_rest_service
 description: A flutter package to help with Rest API integration.
-version: 0.0.3 #dart pub publish
+version: 0.0.5 #dart pub publish
 homepage: https://github.com/Juniorlpes/rest_service
 
 environment:

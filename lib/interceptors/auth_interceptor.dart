@@ -3,19 +3,21 @@ import 'package:dio/dio.dart';
 class AuthInterceptor extends Interceptor {
   final Future<String> Function() getToken;
   final String? authHeaderParameter;
-  final bool bearerPrefixToken;
+  final bool isBearerPrefixToken;
+  final Future<void> Function()? refreshToken;
 
-  AuthInterceptor(
-    this.getToken, {
+  AuthInterceptor({
+    required this.getToken,
     this.authHeaderParameter,
-    this.bearerPrefixToken = true,
+    this.isBearerPrefixToken = true,
+    this.refreshToken,
   });
 
   @override
   Future<dynamic> onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
     options.headers[authHeaderParameter ?? 'Authorization'] =
-        '${bearerPrefixToken ? 'Bearer ' : ''}${await getToken()}';
+        '${isBearerPrefixToken ? 'Bearer ' : ''}${await getToken()}';
     return handler.next(options);
   }
 
@@ -27,6 +29,11 @@ class AuthInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     // pode retornar o erro ou tentar tratar, direcionar pra login se token tiver expirado, fazer refreshToken etc
+
+    if (err.response?.statusCode == 401 && refreshToken != null) {
+      await refreshToken!();
+    }
+
     return handler.next(err);
   }
 }
