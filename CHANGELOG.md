@@ -1,3 +1,7 @@
+## 0.0.5
+
+* Change Rest Response structure
+
 ## 0.0.4
 
 * Add RefreshToken

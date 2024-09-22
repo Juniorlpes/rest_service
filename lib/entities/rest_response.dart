@@ -1,13 +1,33 @@
-import 'package:simple_rest_service/entities/rest_failure.dart';
-
 import 'rest_status_code.dart';
 
-class RestResponse<T> {
-  late T data;
-  late RestStatusCode restStatusCode;
-  RestFailure? failure;
+abstract class RestResponse<T> {
+  final RestStatusCode restStatusCode;
+
+  RestResponse(this.restStatusCode);
 
   int get statusCode => restStatusCode.code;
+  bool get success => this is RestSuccesResponse;
+}
 
-  bool get success => failure == null;
+class RestSuccesResponse<T> extends RestResponse<T> {
+  final T data;
+
+  RestSuccesResponse({
+    required this.data,
+    required RestStatusCode restStatusCode,
+  }) : super(restStatusCode);
+}
+
+class RestException<T> extends RestResponse<T> implements Exception {
+  final String? message;
+
+  final dynamic dataResponse;
+  final StackTrace? stackTrace;
+
+  RestException({
+    required RestStatusCode restStatusCode,
+    this.message,
+    this.dataResponse,
+    this.stackTrace,
+  }) : super(restStatusCode);
 }

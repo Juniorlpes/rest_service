@@ -1,6 +1,6 @@
 import 'package:simple_rest_service/entities/rest_response.dart';
 
-abstract class IRestService {
+abstract interface class IRestService {
   ///Get a model from webService
   Future<RestResponse<T>> getModel<T>(
     String path,

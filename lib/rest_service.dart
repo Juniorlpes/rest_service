@@ -1,7 +1,6 @@
 library simple_rest_service;
 
 export 'entities/rest_status_code.dart';
-export './entities/rest_failure.dart';
 export './entities/rest_response.dart';
 
 export './interceptors/auth_interceptor.dart';
