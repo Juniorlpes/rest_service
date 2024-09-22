@@ -1,3 +1,7 @@
+## 0.0.6
+
+* Implement tests
+
 ## 0.0.5
 
 * Change Rest Response structure
