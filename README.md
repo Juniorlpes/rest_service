@@ -37,10 +37,10 @@ getModel, getList, postModel, postList ...
 
 ```
 Future<TaskItemModel> createTask(TaskItemModel item) async {
-    final result = await _todoRest.postModel(
+    final result = await _taskRest.postModel(
       '/task',
       item.toMap(),
-      (json) => TodoItemModel.fromMap(json!),
+      (json) => TaskItemModel.fromMap(json!),
     );
 
     if (result.success) {
