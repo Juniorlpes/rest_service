@@ -1,27 +1,56 @@
 # Rest Service
 
-This package encapsules give you a RestService Interfate to...
+This package encapsulates and provides you with a Rest Service Interface to simplify your application-side REST API integration.
 
-## Features
-
-List what your package can do. Maybe include images, gifs, or videos.
+This package use [Dio](https://pub.dev/packages/dio) package in background and it was based in [restbase package](https://pub.dev/packages/restbase)
 
 ## Getting started
 
-List prerequisites and provide or point to information on how to
-start using the package.
+Add the package in pubspec.yaml
+
+```
+simple_rest_service: ^0.0.8
+```
 
 ## Usage
 
-Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+You need create a class to be your Rest Api client.
+You need create a class for each context you have. It is separated by 'baseUrl'
 
-```dart
-const like = 'sample';
+```
+class TaskRestApi extends RestService {
+  TaskRestApi() : super('https://your-task-api/api') {
+    addInterceptor(PrintLogInterceptor());
+    addInterceptor(AuthInterceptor(
+      getToken: () async =>
+          (await FirebaseAuth.instance.currentUser?.getIdToken(true)) ?? '',
+    ));
+  }
+}
 ```
 
-## Additional information
+The package has the PrintLogInterceptor to help you see the events in the debug console and the AuthInterceptor to put you access token in the requests.
+These are optional and very customizable.
 
-Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+So, after creating the TaskRestApi class, you can call the methods
+getModel, getList, postModel, postList ...
+
+```
+Future<TaskItemModel> createTask(TaskItemModel item) async {
+    final result = await _todoRest.postModel(
+      '/task',
+      item.toMap(),
+      (json) => TodoItemModel.fromMap(json!),
+    );
+
+    if (result.success) {
+      return result.data;
+    } else {
+      throw GeneralAppFailure()
+        ..message = result.exception?.message
+        ..statusCode = result.statusCode;
+    }
+}
+```
+
+Please, read the documentation, the source code, send opinions and improvements.
