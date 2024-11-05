@@ -6,7 +6,8 @@ abstract class RestService implements IRestService {
   final String? Function(dynamic)? getErrorMessage;
   late final String _baseUrl;
 
-  //PermaQuery
+  //PermaQuery?
+  //PermaHeaders?
 
   RestService(
     String baseUrl, {
@@ -119,9 +120,19 @@ abstract class RestService implements IRestService {
   ///Post a data and receive a model
   @override
   Future<RestResponse<T>> postModel<T>(
-      String path, body, T Function(Map<String, dynamic>? json) parse) async {
+    String path,
+    body,
+    T Function(Map<String, dynamic>? json) parse, {
+    Map<String, dynamic>? query,
+    Map<String, dynamic>? headers,
+  }) async {
     try {
-      final result = await _dio.post(_composeUrl(path), data: body);
+      final result = await _dio.post(
+        _composeUrl(path),
+        data: body,
+        queryParameters: query,
+        options: Options(headers: headers),
+      );
       return RestSuccesResponse<T>(
         data: parse(result.data),
         restStatusCode: RestStatusCode.fromInt(result.statusCode),
@@ -139,15 +150,78 @@ abstract class RestService implements IRestService {
   ///Put a data and receive a model
   @override
   Future<RestResponse<T>> putModel<T>(
-      String path, body, T Function(dynamic json) parse) async {
+    String path,
+    body,
+    T Function(dynamic json) parse, {
+    Map<String, dynamic>? query,
+    Map<String, dynamic>? headers,
+  }) async {
     try {
-      final result = await _dio.put(_composeUrl(path), data: body);
+      final result = await _dio.put(
+        _composeUrl(path),
+        data: body,
+        queryParameters: query,
+        options: Options(headers: headers),
+      );
       return RestSuccesResponse<T>(
         data: parse(result.data),
         restStatusCode: RestStatusCode.fromInt(result.statusCode),
       );
     } on DioException catch (err) {
       return _getRestExceptionFromDioException<T>(err);
+    } catch (e) {
+      return RestException(
+        restStatusCode: RestStatusCode.unknow,
+        message: e.toString(),
+      );
+    }
+  }
+
+  @override
+  Future<RestResponse<List<T>>> putList<T>(
+    String path,
+    body,
+    T Function(dynamic json) parse, {
+    Map<String, dynamic>? query,
+    Map<String, dynamic>? headers,
+  }) async {
+    try {
+      final result = await _dio.put(
+        _composeUrl(path),
+        data: body,
+        queryParameters: query,
+        options: Options(headers: headers),
+      );
+      return RestSuccesResponse<List<T>>(
+        data: _parseList(result.data, parse),
+        restStatusCode: RestStatusCode.fromInt(result.statusCode),
+      );
+    } on DioException catch (err) {
+      return _getRestExceptionFromDioException<List<T>>(err);
+    } catch (e) {
+      return RestException(
+        restStatusCode: RestStatusCode.unknow,
+        message: e.toString(),
+      );
+    }
+  }
+
+  @override
+  Future<RestResponse<void>> deleteModel(
+    String path, {
+    Map<String, dynamic>? query,
+    Map<String, dynamic>? headers,
+  }) async {
+    try {
+      final result =
+          await _dio.delete(_composeUrl(path), queryParameters: query);
+
+      return RestSuccesResponse(
+        data: null,
+        restStatusCode: RestStatusCode.fromInt(result.statusCode),
+      );
+    } on DioException catch (err) {
+      return _getRestExceptionFromDioException<void>(err);
     } catch (e) {
       return RestException(
         restStatusCode: RestStatusCode.unknow,

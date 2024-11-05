@@ -4,7 +4,7 @@ abstract interface class IRestService {
   ///Get a model from webService
   Future<RestResponse<T>> getModel<T>(
     String path,
-    //esses dynamic json poderia ser/são Map<String, dynamic>?
+    //this dynamic json could be a Map<String, dynamic>?
     T Function(dynamic json) parse, {
     Map<String, dynamic>? query,
     Map<String, dynamic>? headers,
@@ -20,7 +20,12 @@ abstract interface class IRestService {
 
   ///Post a data and receive a model
   Future<RestResponse<T>> postModel<T>(
-      String path, dynamic body, T Function(dynamic json) parse);
+    String path,
+    dynamic body,
+    T Function(dynamic json) parse, {
+    Map<String, dynamic>? query,
+    Map<String, dynamic>? headers,
+  });
 
   ///Post a data and receive a list model
   Future<RestResponse<List<T>>> postList<T>(
@@ -33,5 +38,26 @@ abstract interface class IRestService {
 
   ///Put a data and receive a model
   Future<RestResponse<T>> putModel<T>(
-      String path, dynamic body, T Function(dynamic json) parse);
+    String path,
+    dynamic body,
+    T Function(dynamic json) parse, {
+    Map<String, dynamic>? query,
+    Map<String, dynamic>? headers,
+  });
+
+  ///Put a data and receive a List
+  Future<RestResponse<List<T>>> putList<T>(
+    String path,
+    dynamic body,
+    T Function(dynamic json) parse, {
+    Map<String, dynamic>? query,
+    Map<String, dynamic>? headers,
+  });
+
+  ///Delete a model
+  Future<RestResponse<void>> deleteModel(
+    String path, {
+    Map<String, dynamic>? query,
+    Map<String, dynamic>? headers,
+  });
 }
