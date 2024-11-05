@@ -1,3 +1,7 @@
+## 0.0.8
+
+* Improve RestResponse
+
 ## 0.0.7
 
 * Add putList and DeleteModel

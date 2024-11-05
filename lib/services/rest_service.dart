@@ -48,17 +48,17 @@ abstract class RestService implements IRestService {
         queryParameters: query,
         options: Options(headers: headers),
       );
-      return RestSuccesResponse<List<T>>(
-        data: _parseList(result.data, parse),
-        restStatusCode: RestStatusCode.fromInt(result.statusCode),
-      );
+      return RestResponse<List<T>>(
+        RestStatusCode.fromInt(result.statusCode),
+      )..data = _parseList(result.data, parse);
     } on DioException catch (err) {
-      return _getRestExceptionFromDioException<List<T>>(err);
+      return RestResponse<List<T>>(
+        RestStatusCode.fromInt(err.response?.statusCode),
+      )..exception = _getRestExceptionFromDioException(err);
     } catch (e) {
-      return RestException(
-        restStatusCode: RestStatusCode.unknow,
-        message: e.toString(),
-      );
+      return RestResponse<List<T>>(
+        RestStatusCode.unknow,
+      )..exception = RestException(message: e.toString());
     }
   }
 
@@ -71,19 +71,23 @@ abstract class RestService implements IRestService {
     Map<String, dynamic>? headers,
   }) async {
     try {
-      final result = await _dio.get(_composeUrl(path), queryParameters: query);
+      final result = await _dio.get(
+        _composeUrl(path),
+        queryParameters: query,
+        options: Options(headers: headers),
+      );
 
-      return RestSuccesResponse<T>(
-        data: parse(result.data),
-        restStatusCode: RestStatusCode.fromInt(result.statusCode),
-      );
+      return RestResponse<T>(
+        RestStatusCode.fromInt(result.statusCode),
+      )..data = parse(result.data);
     } on DioException catch (err) {
-      return _getRestExceptionFromDioException<T>(err);
+      return RestResponse<T>(
+        RestStatusCode.fromInt(err.response?.statusCode),
+      )..exception = _getRestExceptionFromDioException(err);
     } catch (e) {
-      return RestException(
-        restStatusCode: RestStatusCode.unknow,
-        message: e.toString(),
-      );
+      return RestResponse<T>(
+        RestStatusCode.unknow,
+      )..exception = RestException(message: e.toString());
     }
   }
 
@@ -103,17 +107,17 @@ abstract class RestService implements IRestService {
         queryParameters: query,
         options: Options(headers: headers),
       );
-      return RestSuccesResponse<List<T>>(
-        data: _parseList(result.data, parse),
-        restStatusCode: RestStatusCode.fromInt(result.statusCode),
-      );
+      return RestResponse<List<T>>(
+        RestStatusCode.fromInt(result.statusCode),
+      )..data = _parseList(result.data, parse);
     } on DioException catch (err) {
-      return _getRestExceptionFromDioException<List<T>>(err);
+      return RestResponse<List<T>>(
+        RestStatusCode.fromInt(err.response?.statusCode),
+      )..exception = _getRestExceptionFromDioException(err);
     } catch (e) {
-      return RestException(
-        restStatusCode: RestStatusCode.unknow,
-        message: e.toString(),
-      );
+      return RestResponse<List<T>>(
+        RestStatusCode.unknow,
+      )..exception = RestException(message: e.toString());
     }
   }
 
@@ -133,17 +137,17 @@ abstract class RestService implements IRestService {
         queryParameters: query,
         options: Options(headers: headers),
       );
-      return RestSuccesResponse<T>(
-        data: parse(result.data),
-        restStatusCode: RestStatusCode.fromInt(result.statusCode),
-      );
+      return RestResponse<T>(
+        RestStatusCode.fromInt(result.statusCode),
+      )..data = parse(result.data);
     } on DioException catch (err) {
-      return _getRestExceptionFromDioException<T>(err);
+      return RestResponse<T>(
+        RestStatusCode.fromInt(err.response?.statusCode),
+      )..exception = _getRestExceptionFromDioException(err);
     } catch (e) {
-      return RestException(
-        restStatusCode: RestStatusCode.unknow,
-        message: e.toString(),
-      );
+      return RestResponse<T>(
+        RestStatusCode.unknow,
+      )..exception = RestException(message: e.toString());
     }
   }
 
@@ -163,17 +167,17 @@ abstract class RestService implements IRestService {
         queryParameters: query,
         options: Options(headers: headers),
       );
-      return RestSuccesResponse<T>(
-        data: parse(result.data),
-        restStatusCode: RestStatusCode.fromInt(result.statusCode),
-      );
+      return RestResponse<T>(
+        RestStatusCode.fromInt(result.statusCode),
+      )..data = parse(result.data);
     } on DioException catch (err) {
-      return _getRestExceptionFromDioException<T>(err);
+      return RestResponse<T>(
+        RestStatusCode.fromInt(err.response?.statusCode),
+      )..exception = _getRestExceptionFromDioException(err);
     } catch (e) {
-      return RestException(
-        restStatusCode: RestStatusCode.unknow,
-        message: e.toString(),
-      );
+      return RestResponse<T>(
+        RestStatusCode.unknow,
+      )..exception = RestException(message: e.toString());
     }
   }
 
@@ -192,17 +196,17 @@ abstract class RestService implements IRestService {
         queryParameters: query,
         options: Options(headers: headers),
       );
-      return RestSuccesResponse<List<T>>(
-        data: _parseList(result.data, parse),
-        restStatusCode: RestStatusCode.fromInt(result.statusCode),
-      );
+      return RestResponse<List<T>>(
+        RestStatusCode.fromInt(result.statusCode),
+      )..data = _parseList(result.data, parse);
     } on DioException catch (err) {
-      return _getRestExceptionFromDioException<List<T>>(err);
+      return RestResponse<List<T>>(
+        RestStatusCode.fromInt(err.response?.statusCode),
+      )..exception = _getRestExceptionFromDioException(err);
     } catch (e) {
-      return RestException(
-        restStatusCode: RestStatusCode.unknow,
-        message: e.toString(),
-      );
+      return RestResponse<List<T>>(
+        RestStatusCode.unknow,
+      )..exception = RestException(message: e.toString());
     }
   }
 
@@ -213,28 +217,28 @@ abstract class RestService implements IRestService {
     Map<String, dynamic>? headers,
   }) async {
     try {
-      final result =
-          await _dio.delete(_composeUrl(path), queryParameters: query);
+      final result = await _dio.delete(
+        _composeUrl(path),
+        queryParameters: query,
+        options: Options(headers: headers),
+      );
 
-      return RestSuccesResponse(
-        data: null,
-        restStatusCode: RestStatusCode.fromInt(result.statusCode),
-      );
+      return RestResponse(
+        RestStatusCode.fromInt(result.statusCode),
+      )..data = null;
     } on DioException catch (err) {
-      return _getRestExceptionFromDioException<void>(err);
+      return RestResponse<void>(
+        RestStatusCode.fromInt(err.response?.statusCode),
+      )..exception = _getRestExceptionFromDioException(err);
     } catch (e) {
-      return RestException(
-        restStatusCode: RestStatusCode.unknow,
-        message: e.toString(),
-      );
+      return RestResponse<void>(
+        RestStatusCode.unknow,
+      )..exception = RestException(message: e.toString());
     }
   }
 
-  RestException<T> _getRestExceptionFromDioException<T>(
-          DioException dioException) =>
-      RestException<T>(
-        restStatusCode:
-            RestStatusCode.fromInt(dioException.response?.statusCode),
+  RestException _getRestExceptionFromDioException(DioException dioException) =>
+      RestException(
         stackTrace: dioException.stackTrace,
         dataResponse: dioException.response?.data,
         message: getErrorMessage != null

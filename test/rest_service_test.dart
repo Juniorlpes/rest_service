@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:simple_rest_service/rest_service.dart';
 
 import 'fixture/task_model.dart';
 import 'fixture/task_rest.dart';
@@ -35,7 +34,7 @@ void main() {
     //Assert
     expect(result.success, true);
     expect(result.statusCode, 200);
-    expect((result as RestSuccesResponse).data.id, '123');
+    expect(result.data.id, '123');
   });
 
   test('Receive Exception when search task', () async {
@@ -57,6 +56,6 @@ void main() {
     //Assert
     expect(result.success, false);
     expect(result.statusCode, 404);
-    expect((result as RestException).message, 'Task Not Found');
+    expect(result.exception!.message, 'Task Not Found');
   });
 }
