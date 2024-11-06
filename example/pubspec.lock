@@ -174,10 +174,10 @@ packages:
   simple_rest_service:
     dependency: "direct main"
     description:
-      path: "../.."
+      path: ".."
       relative: true
     source: path
-    version: "0.0.7"
+    version: "0.1.0"
   sky_engine:
     dependency: transitive
     description: flutter
