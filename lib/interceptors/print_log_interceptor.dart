@@ -2,6 +2,7 @@ import 'package:ansicolor/ansicolor.dart';
 import 'package:dio/dio.dart';
 import 'dart:developer';
 
+///This interceptor is used to print requests made while using the app.
 class PrintLogInterceptor extends Interceptor {
   static const logName = 'HTTP';
 

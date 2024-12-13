@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:simple_rest_service/rest_service.dart';
 
+///This service abstracts http verbs and makes it easier to map and return data.
 abstract class RestService implements IRestService {
   late final Dio _dio;
   final String? Function(dynamic)? getErrorMessage;
@@ -21,11 +22,12 @@ abstract class RestService implements IRestService {
           receiveTimeout: Duration(milliseconds: timeoutMilliseconds),
           //baseUrl: baseUrl,
         ));
-    _baseUrl = baseUrl.length < 3
-        ? baseUrl
-        : baseUrl.endsWith('/')
-            ? baseUrl.substring(0, baseUrl.length - 2)
-            : baseUrl;
+    _baseUrl = dioClient?.options.baseUrl ??
+        (baseUrl.length < 3
+            ? baseUrl
+            : baseUrl.endsWith('/')
+                ? baseUrl.substring(0, baseUrl.length - 2)
+                : baseUrl);
   }
 
   void addInterceptor(Interceptor dioInterceptor) =>

@@ -1,3 +1,7 @@
+## 0.1.2
+
+* improved documentation
+
 ## 0.1.1
 
 * Example and readme

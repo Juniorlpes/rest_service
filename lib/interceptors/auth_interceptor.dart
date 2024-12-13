@@ -1,5 +1,10 @@
 import 'package:dio/dio.dart';
 
+///This interceptor is used to authenticate requests.
+///
+///The [getToken] parameter is a function that returns the token for authentication. [isBearerPrefixToken] indicates whether the authentication header is the Bearer token by default (default true). If it is not, you must indicate the header in [authHeaderParameter].
+///
+///If [refreshToken] is passed, it will be executed after receiving a 401 from the REST API.
 class AuthInterceptor extends Interceptor {
   final Future<String> Function() getToken;
   final String? authHeaderParameter;

@@ -1,5 +1,8 @@
 import 'package:simple_rest_service/entities/rest_response.dart';
 
+///This is the service interface in case you need to use it in your application.
+///
+///It abstracts the HTTP verbs and makes it easier to map and return data.
 abstract interface class IRestService {
   ///Get a model from webService
   Future<RestResponse<T>> getModel<T>(

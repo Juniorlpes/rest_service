@@ -26,8 +26,7 @@ class TaskRestApi extends RestService {
     
     // This is a interceptor to put access token in the requests. It is optional and very customizable.
     addInterceptor(AuthInterceptor( 
-      getToken: () async =>
-          (await FirebaseAuth.instance.currentUser?.getIdToken(true)) ?? '',
+      getToken: () async => (await FirebaseAuth.instance.currentUser?.getIdToken()) ?? '',
     ));
 
   }
@@ -57,7 +56,3 @@ Future<TaskItemModel> createTask(TaskItemModel item) async {
 ```
 
 Please, read the documentation, the source code, send opinions and improvements.
-
-## Explanation
-
-- TODO: Explain and document this package
