@@ -26,7 +26,7 @@ abstract class RestService implements IRestService {
         (baseUrl.length < 3
             ? baseUrl
             : baseUrl.endsWith('/')
-                ? baseUrl.substring(0, baseUrl.length - 2)
+                ? baseUrl.substring(0, baseUrl.length - 1)
                 : baseUrl);
   }
 

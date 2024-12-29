@@ -1,51 +1,55 @@
+## 0.2.0
+
+- Fix BaseUrl
+
 ## 0.1.2
 
-* improved documentation
+- improved documentation
 
 ## 0.1.1
 
-* Example and readme
+- Example and readme
 
 ## 0.1.0
 
-* -
+- -
 
 ## 0.0.9
 
-* Readme
+- Readme
 
 ## 0.0.8
 
-* Improve RestResponse
+- Improve RestResponse
 
 ## 0.0.7
 
-* Add putList and DeleteModel
+- Add putList and DeleteModel
 
 ## 0.0.6
 
-* Implement tests
+- Implement tests
 
 ## 0.0.5
 
-* Change Rest Response structure
+- Change Rest Response structure
 
 ## 0.0.4
 
-* Add RefreshToken
+- Add RefreshToken
 
 ## 0.0.4
 
-* change package name
+- change package name
 
 ## 0.0.3
 
-* Internal improvements
+- Internal improvements
 
 ## 0.0.2
 
-* Improve RestService
+- Improve RestService
 
 ## 0.0.1
 
-* First commit
+- First commit
